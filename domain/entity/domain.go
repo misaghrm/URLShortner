@@ -1,16 +1,13 @@
 package entity
 
-import (
-	"database/sql"
-	"github.com/misaghrm/urlshortener/domain/enum/protocoltype"
-)
-
 type BaseDomain struct {
 	BaseEntity
-	TransferProtocol protocoltype.ProtocolType `gorm:"column:TransferProtocol;not null"`
-	SubDomain        sql.NullString            `gorm:"column:SubDomain"`
-	Domain           string                    `gorm:"column:Domain;not null"`
-	TLD              string                    `gorm:"column:TLD;not null"`
+	Scheme  string `gorm:"column:TransferProtocol;not null"`
+	Opaque  string `gorm:"column:Opaque"`
+	Host    string `gorm:"column:Host;not null"`
+	TLD     string `gorm:"column:TLD;not null"`
+	Counter uint64 `gorm:"column:Counter"`
+	Path    []Path `gorm:"foreignkey:BaseDomainId" `
 }
 
 func (BaseDomain) TableName() string {
