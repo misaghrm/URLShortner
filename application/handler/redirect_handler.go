@@ -12,5 +12,8 @@ func Redirect(c *fiber.Ctx) error {
 		c.Redirect("https://www.google.com")
 	}
 	Id := util.GetIntegerValue(uniqueStr)
+	e := `"` + uniqueStr + `"`
+	c.Response().Header.Set("Etag", e)
+	c.Response().Header.Set("Cache-Control", "max-age=2592000")
 	return c.Redirect(repository.Find(Id))
 }
