@@ -6,10 +6,11 @@ import (
 
 type Path struct {
 	BaseEntity
-	RawPath      sql.NullString `gorm:"column:RawPath"`
-	RawQuery     sql.NullString `gorm:"column:RawQuery"`
-	RawFragment  sql.NullString `gorm:"column:RawFragment"`
+	Path         sql.NullString `gorm:"column:Path"`
+	Query        sql.NullString `gorm:"column:Query"`
+	Fragment     sql.NullString `gorm:"column:Fragment"`
 	BaseDomainId int64          `gorm:"column:BaseDomainId"`
+	Counter      uint64         `gorm:"column:Counter"`
 	BaseDomain   BaseDomain     `gorm:"foreignkey:BaseDomainId" `
 }
 

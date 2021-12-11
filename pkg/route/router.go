@@ -1,11 +1,12 @@
 package route
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/gofiber/fiber/v2"
+	"github.com/misaghrm/urlshortener/application/handler"
+)
 
 func SetupRoute(app *fiber.App) {
 	api := app.Group("/")
-	api.Get("/", func(c *fiber.Ctx) error {
-		return c.JSON("It Works!")
-	})
-	api.Post("/create")
+	api.Get("/", handler.Redirect)
+	api.Post("/create", handler.NewURL)
 }

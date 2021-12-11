@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/misaghrm/urlshortener/application/model"
+	"github.com/misaghrm/urlshortener/infrastructure/repository"
 	"github.com/misaghrm/urlshortener/pkg/util"
 	"net/http"
+	"net/url"
 )
 
 func NewURL(c *fiber.Ctx) error {
@@ -19,21 +21,26 @@ func NewURL(c *fiber.Ctx) error {
 			Message: "request body is wrong",
 		})
 	}
-	validUrl, err := util.IsURLValid(request.URL)
-	if err != nil {
+	if !util.IsURLValid(request.URL) {
 		return c.JSON(model.ResponseModel{
 			Code:    http.StatusBadRequest,
 			Message: "url is wrong",
 		})
 	}
-	marshal, err := json.Marshal(validUrl)
+	parsedUrl, _ := url.Parse(request.URL)
+	marshal, err := json.Marshal(parsedUrl)
 	if err != nil {
-		fmt.Println("err:")
 		fmt.Println(err)
 		return err
 	}
 	fmt.Println(string(marshal))
+	id := repository.InsertNewURL(parsedUrl)
+	uniquestring := util.GetStringValue(id)
+	e := `"` + uniquestring + `"`
+	c.Response().Header.Set("Etag", e)
+	c.Response().Header.Set("Cache-Control", "max-age=2592000")
 	return c.JSON(model.ResponseModel{
+		Data: map[string]string{"URL": uniquestring},
 		Code: http.StatusOK,
 	})
 }

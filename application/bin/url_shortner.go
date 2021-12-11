@@ -5,6 +5,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/misaghrm/urlshortener/pkg/route"
+	_ "github.com/misaghrm/urlshortener/pkg/util"
 	"log"
 	"os"
 )
