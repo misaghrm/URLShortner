@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	connectionString string
+	connectionString string = "host=127.0.0.1 user=postgres password= dbname=postgres port=5432 sslmode=disable"
 	Db               *gorm.DB
 	err              error
 )
@@ -28,27 +28,28 @@ func init() {
 		log.Panicln(err)
 		return
 	}
+	err = Db.AutoMigrate(entity.BaseDomain{}, entity.Path{})
+	if err != nil {
+		log.Panicln(err)
+		return
+	}
 }
 
 func InsertNewURL(Model *url.URL) int64 {
 	domain := &entity.BaseDomain{
-		BaseEntity: entity.BaseEntity{
-			Id:              util.ID.Generate().Int64(),
-			CreationTimeUtc: time.Now().UTC(),
-		},
-		Scheme: Model.Scheme,
-		Opaque: Model.Opaque,
-		Host:   Model.Host,
+		Id:              util.ID.Generate().Int64(),
+		CreationTimeUtc: time.Now().UTC(),
+		Scheme:          Model.Scheme,
+		Opaque:          Model.Opaque,
+		Host:            Model.Host,
 	}
 	path := &entity.Path{
-		BaseEntity: entity.BaseEntity{
-			Id:              util.ID.Generate().Int64(),
-			CreationTimeUtc: time.Now().UTC(),
-		},
-		Path:         sql.NullString{Model.Path, true},
-		Query:        sql.NullString{Model.RawQuery, true},
-		Fragment:     sql.NullString{Model.RawFragment, true},
-		BaseDomainId: (domain.Id),
+		Id:              util.ID.Generate().Int64(),
+		CreationTimeUtc: time.Now().UTC(),
+		Path:            sql.NullString{Model.Path, true},
+		Query:           sql.NullString{Model.RawQuery, true},
+		Fragment:        sql.NullString{Model.RawFragment, true},
+		BaseDomainId:    domain.Id,
 	}
 	Db.Begin()
 	Db.Model(&entity.BaseDomain{}).Where(&entity.BaseDomain{
@@ -68,9 +69,15 @@ func InsertNewURL(Model *url.URL) int64 {
 
 func Find(id int64) (url string) {
 	path := entity.Path{}
-	Db.Model(&entity.Path{}).Where(`"Id" = ?`, id).First(&path)
-	Db.Model(&entity.BaseDomain{}).Where(`"Id" = ?`, path.BaseDomainId).First(&path.BaseDomain)
-	url = path.BaseDomain.Scheme + path.BaseDomain.Opaque + path.BaseDomain.Host + path.Path.String + path.Query.String + path.Fragment.String
-
+	Db.Model(&entity.Path{}).
+		Where(`"Id" = ?`, id).
+		First(&path)
+	Db.
+		Model(&entity.BaseDomain{}).
+		Where(`"Id" = ?`, path.BaseDomainId).
+		First(&path.BaseDomain)
+	path.Counter += 1
+	Db.Save(&path)
+	url = path.BaseDomain.Scheme + "://" + path.BaseDomain.Opaque + path.BaseDomain.Host + path.Path.String + path.Query.String + path.Fragment.String
 	return url
 }

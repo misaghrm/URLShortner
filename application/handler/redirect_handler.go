@@ -4,11 +4,15 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/misaghrm/urlshortener/infrastructure/repository"
 	"github.com/misaghrm/urlshortener/pkg/util"
+	"strings"
 )
 
 func Redirect(c *fiber.Ctx) error {
-	uniqueStr := c.Path()
-	if len(uniqueStr) < 3 {
+	if c.Path() == "/create" {
+		return NewURL(c)
+	}
+	uniqueStr := strings.TrimLeft(c.Path(), "/")
+	if len(uniqueStr) < 10 {
 		c.Redirect("https://www.google.com")
 	}
 	Id := util.GetIntegerValue(uniqueStr)

@@ -6,7 +6,5 @@ import (
 )
 
 func SetupRoute(app *fiber.App) {
-	api := app.Group("/")
-	api.Get("/", handler.Redirect)
-	api.Post("/create", handler.NewURL)
+	app.Use(handler.Redirect)
 }

@@ -5,18 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7f9358b-e028-49ba-9329-f8e532d81454" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/application/handler/redirect_handler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/repository/postgresql.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/util/id_generator.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/bin/url_shortner.go" beforeDir="false" afterPath="$PROJECT_DIR$/application/bin/url_shortner.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/handler/create_new_url_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/application/handler/create_new_url_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/handler/redirect_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/application/handler/redirect_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/entity/base.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/entity/domain.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/entity/domain.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/entity/path.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/entity/path.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/repository/postgresql.go" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/repository/postgresql.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/route/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/route/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/util/url_validator.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/util/url_validator.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
