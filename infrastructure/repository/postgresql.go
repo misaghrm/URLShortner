@@ -39,10 +39,19 @@ func InsertNewURL(Model string) int64 {
 		CreationTimeUtc: time.Now().UTC(),
 		Url:             Model,
 	}
-	Db.
-		Model(&entity.BaseDomain{}).
-		Where(`"Url" = ?`, Model).
-		FirstOrCreate(&domain)
+	var c int64
+	Db.Debug().Model(&entity.BaseDomain{}).Where(`"Url" = ?`, domain.Url).Count(&c)
+	if c > 0 {
+		Db.Debug().Model(&entity.BaseDomain{}).Select(`"Id"`).Where(`"Url" = ?`, domain.Url).Scan(&domain)
+	} else {
+		err = Db.Debug().
+			Model(&entity.BaseDomain{}).
+			Where(`"Url" != ?`, domain.Url).
+			Create(&domain).Error
+	}
+	if err != nil {
+		log.Println(err)
+	}
 	return domain.Id
 }
 

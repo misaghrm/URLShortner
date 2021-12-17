@@ -16,7 +16,6 @@ func init() {
 		fmt.Println(err)
 		return
 	}
-
 }
 
 func GetIntegerValue(str string) int64 {
